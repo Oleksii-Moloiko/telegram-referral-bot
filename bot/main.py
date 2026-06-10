@@ -4,14 +4,11 @@ import asyncio
 import logging
 
 from pathlib import Path
-from dotenv import load_dotenv
 
-# BASE
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(str(BASE_DIR))
+sys.path.insert(0, str(BASE_DIR))
 
-# ENV
-load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -36,8 +33,8 @@ from bot.handlers.subscription import router as subscription_router
 from bot.handlers.help import router as help_router
 from bot.handlers.stats import router as stats_router
 
+from bot.env import BOT_TOKEN
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
@@ -49,6 +46,7 @@ dp.include_router(help_router)
 dp.include_router(stats_router)
 
 async def main():
+    await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 
