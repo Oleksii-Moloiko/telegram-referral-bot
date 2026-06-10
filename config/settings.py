@@ -22,12 +22,16 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY is not set. Please add it to your .env file.")
 
-ALLOWED_HOSTS = os.getenv(
-    "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
-).split(",")
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    if host.strip()
+]
 
 
 # Application definition
@@ -118,3 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
