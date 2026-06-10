@@ -70,3 +70,24 @@ def activate_user_referral(user):
     referral.save(update_fields=["active"])
 
     return True
+
+@sync_to_async
+def get_admin_stats():
+    users_total = TelegramUser.objects.count()
+
+    users_joined_channel = TelegramUser.objects.filter(
+        joined_channel=True,
+    ).count()
+
+    referrals_total = Referral.objects.count()
+
+    referrals_active = Referral.objects.filter(
+        active=True,
+    ).count()
+
+    return {
+        "users_total": users_total,
+        "users_joined_channel": users_joined_channel,
+        "referrals_total": referrals_total,
+        "referrals_active": referrals_active,
+    }

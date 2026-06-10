@@ -28,6 +28,7 @@ from bot.handlers.start import router as start_router
 from bot.handlers.profile import router as profile_router
 from bot.handlers.subscription import router as subscription_router
 from bot.handlers.help import router as help_router
+from bot.handlers.stats import router as stats_router
 
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -39,6 +40,8 @@ dp.include_router(start_router)
 dp.include_router(profile_router)
 dp.include_router(subscription_router)
 dp.include_router(help_router)
+dp.include_router(stats_router)
+
 async def main():
     await dp.start_polling(bot)
 
