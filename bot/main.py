@@ -1,6 +1,7 @@
 import os
 import sys
 import asyncio
+import logging
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -11,6 +12,11 @@ sys.path.append(str(BASE_DIR))
 
 # ENV
 load_dotenv()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
 
 os.environ.setdefault(
     "DJANGO_SETTINGS_MODULE",
