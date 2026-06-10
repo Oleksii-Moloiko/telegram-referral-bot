@@ -13,3 +13,9 @@ router = Router()
 async def leaderboard_command(message: Message):
     text = await sync_to_async(build_leaderboard_text)()
     await message.answer(text)
+
+
+@router.message(lambda message: message.text == "🏆 Рейтинг")
+async def leaderboard_button(message: Message):
+    text = await sync_to_async(build_leaderboard_text)()
+    await message.answer(text)

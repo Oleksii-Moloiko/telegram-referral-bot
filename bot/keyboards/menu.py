@@ -10,12 +10,9 @@ from aiogram.types import (
 
 main_menu = ReplyKeyboardMarkup(
     keyboard=[
-        [
-            KeyboardButton(text="👤 Мій профіль"),
-        ],
-        [
-            KeyboardButton(text="✅ Перевірити підписку"),
-        ],
+        [KeyboardButton(text="👤 Мій профіль")],
+        [KeyboardButton(text="✅ Перевірити підписку")],
+        [KeyboardButton(text="🏆 Рейтинг")],
     ],
     resize_keyboard=True,
 )
