@@ -32,8 +32,10 @@ from bot.handlers.profile import router as profile_router
 from bot.handlers.subscription import router as subscription_router
 from bot.handlers.help import router as help_router
 from bot.handlers.stats import router as stats_router
+from bot.handlers.leaderboard import router as leaderboard_router
 
 from bot.env import BOT_TOKEN
+
 
 
 bot = Bot(token=BOT_TOKEN)
@@ -44,6 +46,8 @@ dp.include_router(profile_router)
 dp.include_router(subscription_router)
 dp.include_router(help_router)
 dp.include_router(stats_router)
+dp.include_router(leaderboard_router)
+
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)
