@@ -11,6 +11,9 @@ load_dotenv(BASE_DIR / ".env")
 def get_required_env(name: str) -> str:
     value = os.getenv(name)
 
+    if value:
+        value = value.strip()
+
     if not value:
         raise RuntimeError(f"{name} is not set. Please add it to your .env file.")
 
