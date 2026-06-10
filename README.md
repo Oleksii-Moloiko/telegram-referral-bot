@@ -177,3 +177,103 @@ You can manage:
 - Referrals
 - Referral active status
 - Subscription status
+
+## Quick Start
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/Oleksii-Moloiko/telegram-referral-bot.git
+cd telegram-referral-bot
+```
+
+### 2. Create virtual environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+For Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Create .env
+
+Copy .env.example:
+
+```bash
+cp .env.example .env
+```
+
+Then fill in real values:
+
+```env
+SECRET_KEY=your-django-secret-key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+BOT_TOKEN=your-telegram-bot-token
+BOT_USERNAME=your_bot_username
+CHANNEL_ID=-1001234567890
+CHANNEL_URL=https://t.me/your_channel
+ADMIN_TELEGRAM_ID=123456789
+```
+
+### 5. Run migrations
+
+```bash
+python manage.py migrate
+```
+
+### 6. Create admin user
+
+```bash
+python manage.py createsuperuser
+```
+
+### 7. Run Django check
+
+```bash
+python manage.py check
+```
+
+### 8. Run bot
+
+```bash
+python bot/main.py
+```
+
+---
+
+
+## Bot Commands
+
+| Command | Description |
+|---|---|
+| `/start` | Start the bot and handle referral links |
+| `/profile` | Show user subscription and referral stats |
+| `/help` | Show available commands |
+| `/leaderboard` | Show top users by active referrals |
+| `/stats` | Admin-only bot statistics |
+
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `SECRET_KEY` | Yes | Django secret key |
+| `DEBUG` | Yes | Django debug mode: `True` or `False` |
+| `ALLOWED_HOSTS` | Yes | Comma-separated allowed hosts |
+| `BOT_TOKEN` | Yes | Telegram bot token from BotFather |
+| `BOT_USERNAME` | Yes | Bot username without `@` |
+| `CHANNEL_ID` | Yes | Telegram channel ID |
+| `CHANNEL_URL` | Yes | Public or invite channel URL |
+| `ADMIN_TELEGRAM_ID` | Yes | Telegram ID of the bot admin |
