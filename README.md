@@ -277,3 +277,38 @@ python bot/main.py
 | `CHANNEL_ID` | Yes | Telegram channel ID |
 | `CHANNEL_URL` | Yes | Public or invite channel URL |
 | `ADMIN_TELEGRAM_ID` | Yes | Telegram ID of the bot admin |
+
+---
+
+## Deployment Notes
+
+The bot is currently deployed as a worker process using polling.
+
+Start command:
+
+```bash
+python bot/main.py
+```
+
+Required production environment variables:
+
+```env
+SECRET_KEY=your-production-django-secret-key
+DEBUG=False
+ALLOWED_HOSTS=your-production-host
+
+BOT_TOKEN=your-telegram-bot-token
+BOT_USERNAME=your_bot_username
+CHANNEL_ID=-1001234567890
+CHANNEL_URL=https://t.me/your_channel
+ADMIN_TELEGRAM_ID=123456789
+
+DATABASE_URL=postgresql://user:password@host:port/database
+```
+
+Before deployment:
+
+```bash
+python manage.py check
+python manage.py migrate
+```
