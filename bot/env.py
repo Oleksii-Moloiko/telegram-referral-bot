@@ -25,3 +25,5 @@ BOT_USERNAME = get_required_env("BOT_USERNAME")
 CHANNEL_ID = get_required_env("CHANNEL_ID")
 CHANNEL_URL = get_required_env("CHANNEL_URL")
 ADMIN_TELEGRAM_ID = int(get_required_env("ADMIN_TELEGRAM_ID"))
+
+APP_ENV = os.getenv("APP_ENV", "local").strip()

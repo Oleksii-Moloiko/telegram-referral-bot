@@ -34,7 +34,7 @@ from bot.handlers.help import router as help_router
 from bot.handlers.stats import router as stats_router
 from bot.handlers.leaderboard import router as leaderboard_router
 
-from bot.env import BOT_TOKEN
+from bot.env import BOT_TOKEN, BOT_USERNAME, APP_ENV
 
 
 
@@ -50,6 +50,8 @@ dp.include_router(leaderboard_router)
 
 
 async def main():
+    logging.info("Starting bot environment=%s username=%s", APP_ENV, BOT_USERNAME)
+    
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
