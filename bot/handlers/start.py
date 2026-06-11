@@ -1,5 +1,3 @@
-import os
-
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import CommandStart
@@ -13,8 +11,6 @@ from bot.keyboards.menu import main_menu, get_subscription_keyboard
 
 router = Router()
 
-BOT_USERNAME = os.getenv("BOT_USERNAME")
-
 
 @router.message(CommandStart())
 async def start_handler(message: Message):
@@ -26,6 +22,7 @@ async def start_handler(message: Message):
     await create_referral(
         invited_user=user,
         inviter_telegram_id=inviter_telegram_id,
+        invited_user_was_created=created,
     )
 
     await message.answer(

@@ -17,7 +17,10 @@ def get_or_create_user(message):
 
 
 @sync_to_async
-def create_referral(invited_user, inviter_telegram_id):
+def create_referral(invited_user, inviter_telegram_id, invited_user_was_created):
+    if not invited_user_was_created:
+        return None
+
     if not inviter_telegram_id:
         return None
 
