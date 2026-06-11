@@ -1,7 +1,9 @@
+import logging
 from asgiref.sync import sync_to_async
 
 from referrals.models import TelegramUser, Referral
 
+logger = logging.getLogger(__name__)
 
 @sync_to_async
 def get_or_create_user(message):
@@ -19,25 +21,47 @@ def get_or_create_user(message):
 @sync_to_async
 def create_referral(invited_user, inviter_telegram_id, invited_user_was_created):
     if not invited_user_was_created:
-        return None
+        logger.info(
+            "Referral skipped: invited user already exists user_id=%s",
+            invited_user.telegram_id,
+        )
+        return "already_exists"
 
     if not inviter_telegram_id:
-        return None
+        logger.info(
+            "Referral skipped: no inviter payload user_id=%s",
+            invited_user.telegram_id,
+        )
+        return "no_payload"
 
     try:
         inviter_telegram_id = int(inviter_telegram_id)
     except ValueError:
-        return None
+        logger.info(
+            "Referral skipped: invalid inviter payload payload=%s user_id=%s",
+            inviter_telegram_id,
+            invited_user.telegram_id,
+        )
+        return "invalid_payload"
 
     if invited_user.telegram_id == inviter_telegram_id:
-        return None
+        logger.info(
+            "Referral skipped: self referral user_id=%s",
+            invited_user.telegram_id,
+        )
+        return "self_referral"
 
     try:
         inviter = TelegramUser.objects.get(
             telegram_id=inviter_telegram_id
         )
     except TelegramUser.DoesNotExist:
-        return None
+        logger.info(
+            "Referral skipped: inviter not found inviter_id=%s invited_id=%s",
+            inviter_telegram_id,
+            invited_user.telegram_id,
+        )
+        return "inviter_not_found"
 
     referral, created = Referral.objects.get_or_create(
         invited=invited_user,
@@ -46,7 +70,19 @@ def create_referral(invited_user, inviter_telegram_id, invited_user_was_created)
         }
     )
 
-    return referral
+    if created:
+        logger.info(
+            "Referral created: inviter_id=%s invited_id=%s",
+            inviter.telegram_id,
+            invited_user.telegram_id,
+        )
+        return "created"
+
+    logger.info(
+        "Referral already exists: invited_id=%s",
+        invited_user.telegram_id,
+    )
+    return "already_has_referral"
 
 
 @sync_to_async

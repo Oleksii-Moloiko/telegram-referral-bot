@@ -19,11 +19,12 @@ async def start_handler(message: Message):
     command_parts = message.text.split(maxsplit=1)
     inviter_telegram_id = command_parts[1] if len(command_parts) > 1 else None
 
-    await create_referral(
+    referral_status = await create_referral(
         invited_user=user,
         inviter_telegram_id=inviter_telegram_id,
         invited_user_was_created=created,
     )
+    _ = referral_status
 
     await message.answer(
         "Вітаю 👋\n\n"
